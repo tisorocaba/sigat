@@ -54,11 +54,13 @@ class Acesso extends CI_Controller {
     $dados['senha_usuario'] = str_replace('"', "", $dados['senha_usuario']);
     $dados['senha_usuario'] = str_replace("'", "", $dados['senha_usuario']);
 
+
     $usuario = $this->usuario_model->validaUsuario($dados);
 
     
 
     if (!empty($usuario)) {
+
       $_SESSION['id_usuario'] = $usuario['id_usuario'];
 
       /*$fila_usuario = $this->usuario_model->buscaUsuario($_SESSION['id_usuario'])->fila_usuario;
