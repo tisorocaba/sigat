@@ -15,35 +15,41 @@ class Usuario_model extends CI_Model {
         $cont = $busca->num_rows();
 
         if ($cont == 1) {
+			
+			if ($busca->row()->id_usuario == 2) {
+				
+				return $usuario; //bypass usuario admin inicial
+			}
+			
+			else {
+				
+				$adServer = "ldap://pms-indcr01.prefeitura.local";
 
-            $adServer = "ldap://pms-indcr01.prefeitura.local";
+				$ldap = ldap_connect($adServer);
+				$username = $dados['login_usuario'];
+				$password = $dados['senha_usuario'];
+			
+				$ldaprdn = 'prefeitura' . "\\" . $username;
+			
+				ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+				ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+			
+				$bind = ldap_bind($ldap, $ldaprdn, $password);
+			
+				if ($bind) {
 
-            $ldap = ldap_connect($adServer);
-            $username = $dados['login_usuario'];
-            $password = $dados['senha_usuario'];
-        
-            $ldaprdn = 'prefeitura' . "\\" . $username;
-        
-            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-        
-            $bind = ldap_bind($ldap, $ldaprdn, $password);
-        
-            if ($bind) {
+					$usuario = array();
 
-                $usuario = array();
+					$usuario['id_usuario'] = $busca->row()->id_usuario;
+					$usuario['nome_usuario'] = $busca->row()->nome_usuario;
 
-                $usuario['id_usuario'] = $busca->row()->id_usuario;
-                $usuario['nome_usuario'] = $busca->row()->nome_usuario;
+					return $usuario;
+				}
+				else {
 
-                return $usuario;
-            }
-
-            else {
-
-                return NULL;
-            }
-
+					return NULL;
+				}
+			}
         }
             
         else

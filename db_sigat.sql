@@ -190,6 +190,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
 INSERT INTO `usuario` (`id_usuario`, `nome_usuario`, `status_usuario`, `data_usuario`, `autorizacao_usuario`, `login_usuario`, `alteracao_usuario`, `fila_usuario`) VALUES
 	(1, 'SISTEMA', 'INATIVO', '2021-03-22 09:56:10', 2, NULL, '2021-03-22 09:56:16', 0),
+	(2, 'ADMIN', 'ATIVO', '2021-03-22 09:56:10', 4, NULL, '2021-03-22 09:56:16', 0),
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
